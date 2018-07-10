@@ -301,11 +301,12 @@ if len(logins)==0:
 else:
   print 'decrypting login/password pairs'  
 for i in logins:
-  print '%20s:' % i[2],  #site URL
+  url = i[2]
   iv = i[0][1]
   ciphertext = i[0][2] #login (PKCS#7 padding not removed)
-  print repr( DES3.new( key, DES3.MODE_CBC, iv).decrypt(ciphertext) ), ',',
+  login = decoded_pretty(key, iv, ciphertext)
   iv = i[1][1]
   ciphertext = i[1][2] #passwd (PKCS#7 padding not removed)
-  print repr( DES3.new( key, DES3.MODE_CBC, iv).decrypt(ciphertext) )
+  password = decoded_pretty(key, iv, ciphertext)
 
+  print '%s,%s,%s' % (url, login, password)
